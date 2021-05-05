@@ -32,8 +32,13 @@ const FilterMenu = (props) => {
       </HStack>
       <HStack justify="space-around" mt=".2em">
         <Text>Order By</Text>
-        <Button rounded="0">Price</Button>
-        <Button rounded="0">Vintage</Button>
+        <Button value="price" rounded="0" onClick={handleClick}>
+          {" "}
+          Price
+        </Button>
+        <Button value="vintage" rounded="0" onClick={handleClick}>
+          Vintage
+        </Button>
       </HStack>
     </Box>
   );

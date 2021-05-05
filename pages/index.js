@@ -7,7 +7,11 @@ export const getStaticProps = async () => {
     "https://storage.googleapis.com/wineshop-assets/wine-shop.json"
   );
   const data = await res.json();
-
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: { data },
   };

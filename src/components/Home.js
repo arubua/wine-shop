@@ -20,22 +20,67 @@ const buttons = [
 
 const Home = ({ data }) => {
   const [filterState, setFilterState] = useState([]);
+  const [quantity, setQuantity] = useState({ bottles: "0", cases: "0" });
+
   const [cart, setCart] = useState([]);
 
-  const addToCart = (no, name, bottleQuantity, caseQuantity) => {
+  const addToCart = (name, quantity) => {
     setCart((items) => {
-      const itemInCart = items.find((i) => i.no === no);
+      const itemInCart = items.find((i) => i.name === name);
+
       if (itemInCart) {
-        return items.map((i) =>
-          i.no === no ? { ...i, quantity: quantity } : i
-        );
+        return items.map((i) => (i.name === name ? { ...i, quantity } : i));
       } else {
-        return [...items, { no, name, quantity: 1 }];
+        return [...items, { name, quantity }];
       }
+      console.log(itemInCart);
     });
+  }; //end addToCart
+
+  const incrementValue = (e) => {
+    e.preventDefault();
+    if (e.target.id === "bottles") {
+      setQuantity((prevQuantity) => {
+        const initialQuantity = prevQuantity;
+        console.log(prevQuantity);
+        initialQuantity.bottles = initialQuantity.bottles + 1;
+
+        return { ...quantity, bottles: initialQuantity.bottles };
+      });
+      console.log(quantity);
+    }
+    if (e.target.id === "cases") {
+      setQuantity((prevQuantity) => {
+        const initialQuantity = prevQuantity;
+        return { ...quantity, cases: initialQuantity.cases + 1 };
+      });
+      console.log(quantity);
+    }
+  };
+
+  const decrementValue = (e) => {
+    e.preventDefault();
+    if (e.target.id === "bottles") {
+      setQuantity((prevQuantity) => {
+        const initialQuantity = prevQuantity;
+        console.log(prevQuantity);
+        initialQuantity.bottles = initialQuantity.bottles - 1;
+
+        return { ...quantity, bottles: initialQuantity.bottles };
+      });
+      console.log(quantity);
+    }
+    if (e.target.id === "cases") {
+      setQuantity((prevQuantity) => {
+        const initialQuantity = prevQuantity;
+        return { ...quantity, cases: initialQuantity.cases - 1 };
+      });
+      console.log(quantity);
+    }
   };
 
   const handleClick = (e) => {
+    e.preventDefault();
     let filterStates = [];
 
     if (e.target.value === "All") {
@@ -47,20 +92,41 @@ const Home = ({ data }) => {
     }
     return setFilterState(filterStates);
   };
-  console.log(filterState);
+
+  const handleChange = (e) => {
+    if (e.target.name === "bottles") {
+      setQuantity({ ...quantity, bottles: e.target.value });
+    }
+    if (e.target.name === "cases") {
+      setQuantity({ ...quantity, cases: e.target.value });
+    }
+  };
+
   return (
     <Box>
       <Center>
         <Logo />
       </Center>
       <Center mb=".4em">
-        <Cart data={data} cart={cart} />
+        <Cart
+          incrementValue={incrementValue}
+          decrementValue={decrementValue}
+          data={data}
+          cart={cart}
+        />
       </Center>
       <Center>
         <FilterMenu buttons={buttons} handleClick={handleClick} />
       </Center>
       <Center>
-        <Wines addToCart={addToCart} data={data} filterState={filterState} />
+        <Wines
+          addToCart={addToCart}
+          data={data}
+          filterState={filterState}
+          quantity={quantity}
+          setQuantity={setQuantity}
+          handleChange={handleChange}
+        />
       </Center>
     </Box>
   );

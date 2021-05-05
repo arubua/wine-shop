@@ -8,41 +8,71 @@ import {
   Spacer,
   Flex,
   Center,
-  HStack,
+  Divider,
 } from "@chakra-ui/react";
 
-const Wines = ({ data, filterState, addToCart }) => {
-  console.log({ data, filterState });
+const Wines = ({
+  data,
+  filterState,
+  addToCart,
+
+  handleChange,
+  quantity,
+  setQuantity,
+}) => {
   const filterTags = filterState.map((tag) => tag.toLowerCase());
 
   return (
-    <Box m="1em 1em">
-      <Stack
-        spacing=".2em"
-        divider={<StackDivider borderColor="gray.200" />}
-        spacing={4}
-      >
-        {filterState.length === 0 || filterState.length > 1
-          ? data.map((item) => (
-              <Box key={item.name}>
-                <WineItem item={item} addToCart={addToCart} />
+    <Center maxW="2500px" w="90vw" display="flex" flexWrap="wrap">
+      {filterState.length === 0 || filterState.length > 1
+        ? data.map((item) => (
+            <Box maxW="600px" mt="1em" key={item.name}>
+              <WineItem
+                item={item}
+                addToCart={addToCart}
+                quantity={quantity}
+                setQuantity={setQuantity}
+                handleChange={handleChange}
+              />
+              <Divider m=".3em" orientation="horizontal" />
+            </Box>
+          ))
+        : filterState[0] === "price"
+        ? data
+            .sort((a, b) => (a.cost.bottle > b.cost.bottle ? 1 : -1))
+            .map((item) => (
+              <Box mt="1em" key={item.name}>
+                <WineItem
+                  item={item}
+                  addToCart={addToCart}
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                  handleChange={handleChange}
+                />
+                <Divider m=".3em" orientation="horizontal" />
               </Box>
             ))
-          : data.map((item) => {
-              const tags = item.tags;
+        : data.map((item) => {
+            const tags = item.tags;
 
-              for (var i = 0; i < tags.length; i++) {
-                if (tags[i].includes(filterTags)) {
-                  return (
-                    <Box key={item.name}>
-                      <WineItem item={item} addToCart={addToCart} />
-                    </Box>
-                  );
-                }
+            for (var i = 0; i < tags.length; i++) {
+              if (tags[i].includes(filterTags)) {
+                return (
+                  <Box mt="1em" key={item.name}>
+                    <WineItem
+                      item={item}
+                      addToCart={addToCart}
+                      quantity={quantity}
+                      setQuantity={setQuantity}
+                      handleChange={handleChange}
+                    />
+                    <Divider m=".3em" orientation="horizontal" />
+                  </Box>
+                );
               }
-            })}
-      </Stack>
-    </Box>
+            }
+          })}
+    </Center>
   );
 };
 

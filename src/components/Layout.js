@@ -20,7 +20,7 @@ class Layout extends Component {
         w={["xs", "md", "lg", "xl", "2xl"]}
       >
         <Center>{this.props.children}</Center>
-        <Center>
+        <Center mt="2em">
           <Footer />
         </Center>
       </Box>

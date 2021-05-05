@@ -1,67 +1,51 @@
-import React from "react";
-import {
-  UnorderedList,
-  Box,
-  Image,
-  HStack,
-  Text,
-  Heading,
-  Spacer,
-  Center,
-} from "@chakra-ui/react";
-import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
-import useFetchAll from "../services/useFetchAll";
+import React, { useState } from "react";
+import { UnorderedList, Box, Heading, Center } from "@chakra-ui/react";
+import CartItem from "./CartItem";
 
-const Cart = ({ cart, updateQuantity, data }) => {
-  function renderItem(itemInCart) {
-    const { no, name, quantity } = itemInCart;
+const Cart = ({ cart, data }) => {
+  const subTotals = [];
 
-    const { cost, image } = data.find((p) => p.no == parseInt(no));
+  const getTotal = (subTotal) => {
+    subTotals.push(subTotal);
+    console.log(subTotals);
+    const reducer = (a, b) => {
+      return a + b;
+    };
+    const total = subTotals.reduce(reducer);
 
-    return (
-      <Box mx="auto">
-        <HStack>
-          <Center w="50px" h="50px">
-            <Image
-              h="50px"
-              src={`https://storage.googleapis.com/wineshop-assets/wine-bottles/${image} `}
-            />
-          </Center>
+    return total;
+  };
 
-          <Box>
-            <Text>{name}</Text>
-          </Box>
-          <Box>
-            <Text>${cost.bottle}</Text>
-          </Box>
-          <Box>{quantity}</Box>
-          <Spacer />
-          <HStack>
-            <AddIcon />
-            <MinusIcon />
-            <DeleteIcon />
-          </HStack>
-        </HStack>
-      </Box>
-    );
-  }
-
-  const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
+  const numItemsInCart = cart.length;
 
   return (
-    <Box backgroundColor="gray.50" as="section">
+    <Box>
       <Center>
         <Heading fontSize="s">
           {numItemsInCart === 0
             ? "Your cart is empty"
-            : `${numItemsInCart} Item${
-                numItemsInCart > 1 ? "s" : ""
-              } in My Cart`}
+            : `${numItemsInCart} Item${numItemsInCart > 1 ? "s" : ""} in Cart`}
         </Heading>
       </Center>
       <Center>
-        <UnorderedList>{cart.map(renderItem)}</UnorderedList>
+        <UnorderedList>
+          {cart.map((itemInCart) => (
+            <CartItem
+              getTotal={getTotal}
+              key="item.no"
+              data={data}
+              itemInCart={itemInCart}
+            />
+          ))}
+        </UnorderedList>
       </Center>
+      {cart.length !== 0 ? (
+        <Center borderTop="1px" borderStyle="solid">
+          Total:{getTotal()}
+        </Center>
+      ) : (
+        <Box></Box>
+      )}
     </Box>
   );
 };

@@ -9,25 +9,20 @@ import {
   StackDivider,
   Image,
   Input,
-  InputGroup,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import Link from "next/link";
 
 const WineItem = (props) => {
-  const [bottleQuantity, setBottleQuantity] = useState("");
-  const [caseQuantity, setCaseQuantity] = useState("");
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    props.actions.searchRepoAction(searchQuery);
-  };
-
-  const item = props.item;
+  const { item, quantity, setQuantity, handleChange, addToCart } = props;
   return (
-    <Box minW="350px">
+    <Box minW="320px">
       <HStack>
-        <Center w="100px" h="300px">
+        <Center w="80px" h="300px">
           <Image
             h="280px"
             src={`https://storage.googleapis.com/wineshop-assets/wine-bottles/${item.image} `}
@@ -65,15 +60,27 @@ const WineItem = (props) => {
                     <Box>${item.cost.bottle}</Box>
                     <Box>
                       <HStack>
-                        <Input
-                          w="1.5em"
-                          h="1.5em"
-                          rounded="0"
-                          color="red"
-                          borderColor="black"
-                          value={bottleQuantity}
-                          onChange={(e) => setBottleQuantity(e.target.value)}
-                        />
+                        <NumberInput
+                          min={0}
+                          name="cases"
+                          value={quantity.bottles}
+                          onChange={(e) => {
+                            setQuantity({ ...quantity, bottles: e });
+                          }}
+                        >
+                          <NumberInputField
+                            p="0"
+                            w="4em"
+                            h="3em"
+                            rounded="0"
+                            name="cases"
+                            borderColor="black"
+                          />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
 
                         <Text>QTY</Text>
                       </HStack>
@@ -84,14 +91,27 @@ const WineItem = (props) => {
                     <Box>${item.cost.case}</Box>
                     <Box>
                       <HStack>
-                        <Input
-                          w="1.5em"
-                          h="1.5em"
-                          rounded="0"
-                          borderColor="black"
-                          value={caseQuantity}
-                          onChange={(e) => setCaseQuantity(e.target.value)}
-                        />
+                        <NumberInput
+                          min={0}
+                          name="cases"
+                          value={quantity.cases}
+                          onChange={(e) => {
+                            setQuantity({ ...quantity, cases: e });
+                          }}
+                        >
+                          <NumberInputField
+                            p="0"
+                            w="4em"
+                            h="3em"
+                            rounded="0"
+                            name="cases"
+                            borderColor="black"
+                          />
+                          <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                          </NumberInputStepper>
+                        </NumberInput>
                         <Text>QTY</Text>
                       </HStack>
                     </Box>
@@ -109,18 +129,11 @@ const WineItem = (props) => {
                   </Button>
 
                   <Button
-                    disabled={!bottleQuantity && !caseQuantity}
-                    onClick={() => {
-                      props.addToCart(
-                        item.no,
-                        item.name,
-                        bottleQuantity,
-                        caseQuantity
-                      );
-                      console.log(item.name, item.no);
-                    }}
+                    type="submit"
+                    disabled={!quantity.bottles && !quantity.cases}
+                    onClick={() => addToCart(item.name, quantity)}
                     rounded="0"
-                    backgroundColor="gray.800"
+                    backgroundColor="black"
                     color="white"
                   >
                     Add to Cart
