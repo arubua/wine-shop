@@ -16,10 +16,17 @@ import {
 	NumberDecrementStepper,
 } from '@chakra-ui/react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const WineItem = props => {
-
 	const { item, quantity, handleChange, addToCart } = props
+
+	const router = useRouter()
+
+	const handleButtonClick = id => {
+		// Use the `push` method of the router to navigate to the desired URL
+		router.push(`details/${id}`)
+	}
 
 	return (
 		<Box minW="320px">
@@ -122,6 +129,7 @@ const WineItem = props => {
 										rounded="0"
 										backgroundColor="gray.200"
 										color="gray.800"
+										onClick={() => handleButtonClick(item.no)}
 									>
 										Details
 									</Button>
