@@ -15,9 +15,7 @@ const Wines = ({
 	data,
 	filterState,
 	addToCart,
-
 	handleChange,
-	quantity,
 	setQuantity,
 }) => {
 	const filterTags = filterState.map(tag => tag.toLowerCase())
@@ -25,13 +23,6 @@ const Wines = ({
 	const [cart, setCart] = useState([])
 
 	useEffect(() => {}, [])
-
-	// const handleChange = (q, type, item) => {
-	// 	console.log('q', q)
-	// 	console.log('type', type)
-
-	// 	console.log('item', item)
-	// }
 
 	return (
 		<Center maxW="2500px" w="90vw" display="flex" flexWrap="wrap">

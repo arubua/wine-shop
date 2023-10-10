@@ -19,7 +19,6 @@ const buttons = [
 ]
 
 const Home = ({ rawdata }) => {
-	console.log({ rawdata })
 	const [filterState, setFilterState] = useState([])
 	const [data, setData] = useState(rawdata)
 
@@ -62,7 +61,6 @@ const Home = ({ rawdata }) => {
 		if (e.target.id === 'bottles') {
 			setData(prevQuantity => {
 				const initialQuantity = prevQuantity
-				console.log(prevQuantity)
 				initialQuantity.bottles = initialQuantity.bottles + 1
 
 				return { ...data, bottles: initialQuantity.bottles }
@@ -81,7 +79,6 @@ const Home = ({ rawdata }) => {
 		if (e.target.id === 'bottles') {
 			setData(prevQuantity => {
 				const initialQuantity = prevQuantity
-				console.log(prevQuantity)
 				initialQuantity.bottles = initialQuantity.bottles - 1
 
 				return { ...data, bottles: initialQuantity.bottles }

@@ -13,7 +13,6 @@ export const getStaticProps = async () => {
 };
 
 const WineDetails = ({ data }) => {
-  console.log(data);
   return (
     <Box>
       {data.map((item) => (

@@ -19,7 +19,6 @@ import Link from 'next/link'
 
 const WineItem = props => {
 
-  console.log("props",props)
 	const { item, quantity, handleChange, addToCart } = props
 
 	return (

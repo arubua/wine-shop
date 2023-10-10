@@ -4,7 +4,6 @@ import CartItem from './CartItem'
 
 const Cart = ({ cart, data,handleDelete }) => {
 
-  console.log("cart",cart)
 
 	const getTotal = () => {
 		if (!Array.isArray(cart) || cart.length === 0) {
