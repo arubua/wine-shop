@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/layout";
-import ItemDetails from "../src/components/ItemDetails";
+import ItemDetails from "./ItemDetails";
+import { useRouter } from "next/router";
 
 export const getStaticProps = async () => {
   const res = await fetch(
@@ -13,6 +14,10 @@ export const getStaticProps = async () => {
 };
 
 const WineDetails = ({ data }) => {
+
+  const router= useRouter()
+  console.log("router",router)
+
   return (
     <Box>
       {data.map((item) => (
