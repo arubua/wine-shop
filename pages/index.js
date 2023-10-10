@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
 export default function HomePage({ data }) {
   return (
     <Layout data={data}>
-      <Home data={data} />
+      <Home rawdata={data} />
     </Layout>
   );
 }

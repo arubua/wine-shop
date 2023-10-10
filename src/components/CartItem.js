@@ -13,8 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
 
-const CartItem = ({ itemInCart, data, getTotal }) => {
-  console.log(itemInCart);
+const CartItem = ({ itemInCart, data, getTotal,handleDelete }) => {
   if (itemInCart.length !== 0) {
     const { name, quantity } = itemInCart;
 
@@ -23,7 +22,6 @@ const CartItem = ({ itemInCart, data, getTotal }) => {
       Math.round(
         (cost.bottle * quantity.bottles + cost.case * quantity.cases) * 100
       ) / 100;
-    console.log(subTotal);
     getTotal(subTotal);
 
     return (
@@ -107,6 +105,7 @@ const CartItem = ({ itemInCart, data, getTotal }) => {
               aria-label="Call Segun"
               size="xs"
               mt="0"
+              onClick={() => handleDelete(name)}
               icon={<DeleteIcon />}
             />
           </Center>
